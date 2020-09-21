@@ -58,6 +58,7 @@ abstract class BaseActivity(@LayoutRes layout:Int) : AppCompatActivity(layout), 
         super.onCreate(savedInstanceState)
         initializeActivityComponent()
         adjustFontScale()
+
     }
 
     fun windowLightStatusBar(){
