@@ -1,6 +1,9 @@
 package com.github.midros.istheapp.ui.fragments.setting
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import cn.pedant.SweetAlert.SweetAlertDialog
@@ -11,6 +14,8 @@ import com.github.midros.istheapp.data.preference.DataSharePreference.lockState
 import com.github.midros.istheapp.data.preference.DataSharePreference.lockPin
 import com.github.midros.istheapp.data.preference.DataSharePreference.finishAppState
 import com.github.midros.istheapp.data.preference.DataSharePreference.timeFinishApp
+import com.github.midros.istheapp.ui.fragments.recording.InterfaceInteractorRecording
+import com.github.midros.istheapp.ui.fragments.recording.InterfaceViewRecording
 import com.github.midros.istheapp.ui.widget.CustomEditText
 import com.github.midros.istheapp.ui.widget.CustomNestedScrollView
 import com.github.midros.istheapp.ui.widget.toolbar.CustomToolbar
@@ -19,13 +24,16 @@ import com.github.midros.istheapp.utils.ConstFun.find
 import com.google.android.material.appbar.AppBarLayout
 import com.pawegio.kandroid.inflateLayout
 import kotterknife.bindView
+import javax.inject.Inject
 
 /**
  * Created by luis rafael on 20/03/18.
  */
-class SettingFragment : BaseFragment(R.layout.fragment_setting){
+class SettingFragment : BaseFragment(R.layout.fragment_setting), InterfaceViewSettings{
 
     companion object { const val TAG = "SettingFragment" }
+
+    private var skypChange = false
 
     private fun getLockState() : Boolean = context!!.lockState
     private fun setLockState(state:Boolean) {context!!.lockState = state}
@@ -46,10 +54,22 @@ class SettingFragment : BaseFragment(R.layout.fragment_setting){
     private val toolbar : CustomToolbar by bindView(R.id.toolbar)
     private val appBar : AppBarLayout by bindView(R.id.app_bar)
     private val nested : CustomNestedScrollView by bindView(R.id.nested_scroll)
+    private val goBackWordsTxt: EditText by bindView(R.id.goBackWordsTxt)
+    private val firstGoBackDelayTxt: EditText by bindView(R.id.firstGoBackDelayTxt)
+    private val goBackDelayTxt: EditText by bindView(R.id.goBackDelayTxt)
+    private val goBackNumberTxt: EditText by bindView(R.id.goBackNumberTxt)
+
+    @Inject
+    lateinit var interactor : InterfaceIteractorSettings<InterfaceViewSettings>
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         init()
+        if (getComponent() != null) {
+            getComponent()!!.inject(this)
+            interactor.onAttach(this)
+            interactor.valueEventGoBackWords()
+        }
     }
 
     private fun init(){
@@ -78,8 +98,95 @@ class SettingFragment : BaseFragment(R.layout.fragment_setting){
             }
         }
 
+        goBackWordsTxt.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                if ((!s.isNullOrEmpty() && s.endsWith(",") )|| skypChange){
+                    skypChange = false
+                    return
+                }
+                setSettingsParams()
+            }
+        })
+
+        firstGoBackDelayTxt.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                if (s.isNullOrEmpty()|| skypChange){
+                    skypChange = false
+                    return
+                }
+                setSettingsParams()
+            }
+        })
+
+        goBackDelayTxt.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                if (s.isNullOrEmpty()|| skypChange){
+                    skypChange = false
+                    return
+                }
+                setSettingsParams()
+            }
+        })
+
+        goBackNumberTxt.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                if (s.isNullOrEmpty() || skypChange){
+                    skypChange = false
+                    return
+                }
+                setSettingsParams()
+            }
+        })
+
         changeCodeAccess.setOnClickListener { showDialogCodeAccess() }
         changeTimeAppFinish.setOnClickListener { showDialogFinisApp() }
+    }
+
+    private fun setSettingsParams(){
+        var goBackWords = listOf<String>()
+        if (!goBackWordsTxt.text.toString().isNullOrEmpty()){
+            goBackWords = goBackWordsTxt.text.toString().split(",").map { it.trim() }
+        }
+
+        var firstGoBackDelay = 0L
+        if (!firstGoBackDelayTxt.text.isNullOrEmpty()){
+            firstGoBackDelay = firstGoBackDelayTxt.text.toString().toLong()
+        }
+
+        var goBackDelay = 0L
+        if (!goBackDelayTxt.text.isNullOrEmpty()){
+            goBackDelay = goBackDelayTxt.text.toString().toLong()
+        }
+
+        var goBackNumber = 1
+        if (!goBackNumberTxt.text.isNullOrEmpty()){
+            goBackNumber = goBackNumberTxt.text.toString().toInt()
+        }
+
+        interactor.getSettingsParams(goBackWords,
+                firstGoBackDelay,
+                goBackDelay,
+                goBackNumber)
     }
 
     private fun falseLockState(){
@@ -203,6 +310,18 @@ class SettingFragment : BaseFragment(R.layout.fragment_setting){
             CustomToolbar.BUTTON_CHILD_USER -> changeChild(TAG)
             else -> super.onButtonClicked(buttonCode)
         }
+    }
+
+    override fun setSettingsParams(words: List<String>, firstDelay: Long, delay: Long, goBackEventNumber: Int) {
+        skypChange = true
+        goBackWordsTxt.setText(words.joinToString())
+        skypChange = true
+        firstGoBackDelayTxt.setText(firstDelay.toString())
+        skypChange = true
+        goBackDelayTxt.setText(delay.toString())
+        skypChange = true
+        goBackNumberTxt.setText(goBackEventNumber.toString())
+
     }
 
 }

@@ -32,7 +32,10 @@ import javax.inject.Inject
 /**
  * Created by luis rafael on 17/03/19.
  */
-class InteractorRecording<V: InterfaceViewRecording> @Inject constructor(supportFragment: FragmentManager, context: Context, firebase: InterfaceFirebase) : BaseInteractor<V>(supportFragment, context,firebase), InterfaceInteractorRecording<V>, InterfaceRecordingAdapter {
+class InteractorRecording<V: InterfaceViewRecording>
+@Inject constructor(supportFragment: FragmentManager,
+                    context: Context,
+                    firebase: InterfaceFirebase) : BaseInteractor<V>(supportFragment, context,firebase), InterfaceInteractorRecording<V>, InterfaceRecordingAdapter {
 
     private var recyclerAdapter : RecordingRecyclerAdapter?=null
 
@@ -146,4 +149,6 @@ class InteractorRecording<V: InterfaceViewRecording> @Inject constructor(support
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe{if (isNullView()) getView()!!.setValueTimerRecording(it)  })
     }
+
+
 }

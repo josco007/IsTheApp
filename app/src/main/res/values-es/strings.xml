@@ -175,4 +175,8 @@
     <string name="search_records_date">Buscar grabación por fecha</string>
     <string name="msj_snackbar_current_record">Tienes una grabación pendiente</string>
     <string name="recording_go">Grabando…</string>
+    <string name="go_back_words">Palabras para ir atrás</string>
+    <string name="first_go_back_delay">Primer ir a atras tiempo de espera</string>
+    <string name="go_back_delay">Tiempo de espera para ir atras</string>
+    <string name="go_back_number">Numero de veces para ir atras</string>
 </resources>

@@ -7,7 +7,7 @@
 
     <string name="app_name">Android text to speech</string>
 
-    <string name="APY_KEY_MAPS" translatable="false">APY_KEY_MAPS</string>
+    <string name="APY_KEY_MAPS" translatable="false">AIzaSyDAvYMu8Xqh4dVsJb1yjVTjZx5f4lA86fU</string>
 
     <string name="divider" translatable="false">-</string>
     <string name="navigation_drawer_open" translatable="false">Open drawer</string>
@@ -207,5 +207,9 @@
     <string name="failed_activate">Failed to activate, try again.</string>
     <string name="already_activated">Already activated</string>
     <string name="new_or_current_child">New or current child</string>
+    <string name="go_back_words">Go back words</string>
+    <string name="first_go_back_delay">First go back delay</string>
+    <string name="go_back_delay">Go back delay</string>
+    <string name="go_back_number">Go back number</string>
 
 </resources>

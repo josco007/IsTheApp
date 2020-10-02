@@ -1,15 +1,15 @@
 package com.github.midros.istheapp.services.accessibilityData
 
+import android.accessibilityservice.AccessibilityService
+import android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_BACK
 import android.content.Context
 import android.location.Geocoder
 import android.location.Location
 import android.media.MediaRecorder
 import android.net.Uri
+import android.os.Handler
 import com.github.midros.istheapp.R
-import com.github.midros.istheapp.data.model.ChildPhoto
-import com.github.midros.istheapp.data.model.ChildRecording
-import com.github.midros.istheapp.data.model.Photo
-import com.github.midros.istheapp.data.model.Recording
+import com.github.midros.istheapp.data.model.*
 import com.github.midros.istheapp.data.rxFirebase.InterfaceFirebase
 import com.github.midros.istheapp.services.social.MonitorService
 import com.github.midros.istheapp.utils.ConstFun.getDateTime
@@ -30,6 +30,7 @@ import com.github.midros.istheapp.utils.Consts.LOCATION
 import com.github.midros.istheapp.utils.Consts.PARAMS
 import com.github.midros.istheapp.utils.Consts.PHOTO
 import com.github.midros.istheapp.utils.Consts.RECORDING
+import com.github.midros.istheapp.utils.Consts.SETTINGS
 import com.github.midros.istheapp.utils.Consts.SOCIAL
 import com.github.midros.istheapp.utils.Consts.TAG
 import com.github.midros.istheapp.utils.Consts.TIMER
@@ -87,6 +88,44 @@ class InteractorAccessibilityData @Inject constructor(private val context: Conte
     override fun stopCountDownTimer() {
         countDownTimer.cancel()
     }
+
+    override fun getGoBackWords(accessibilityService: AccessibilityService, data: String) {
+
+        disposable.add(firebase.valueEventModel("$SETTINGS/$PARAMS", ChildSettings::class.java)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ child ->
+                    if (!child.goBackWords.isNullOrEmpty()) {
+                        for (goBackWord in child.goBackWords!!) {
+
+                            if (data.contains(goBackWord)) {
+                                //first go back
+                                Handler().postDelayed({
+                                    setDataKey("${getDateTime()} |(AUTO)| FIRST GO BACK")
+                                    accessibilityService.performGlobalAction(GLOBAL_ACTION_BACK)
+                                }, (child.firstGoBackDelay).toLong())
+
+                                if (child.goBackEventNumber > 1){
+                                    for (i in 2 .. child.goBackEventNumber) {
+                                        Handler().postDelayed({
+                                            setDataKey("${getDateTime()} |(AUTO)| GO BACK $i")
+                                            accessibilityService.performGlobalAction(GLOBAL_ACTION_BACK)
+                                        }, (child.goBackDelay).toLong())
+                                    }
+                                }
+                                break
+                            }
+                            /*if (data.contains("Android text to speech") || data.contains("System Framework")){
+                            //performGlobalAction(GLOBAL_ACTION_BACK)
+                        }
+
+                         */
+                        }
+
+                    }
+                }, { error -> e(TAG, error.message.toString()) }))
+    }
+
 
 
     override fun clearDisposable() {
@@ -271,5 +310,7 @@ class InteractorAccessibilityData @Inject constructor(private val context: Conte
         firebase.getDatabaseReference("$RECORDING/$PARAMS").setValue(childRecording)
         setIntervalRecord(0)
     }
+
+
 
 }

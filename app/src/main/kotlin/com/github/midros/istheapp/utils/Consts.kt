@@ -22,6 +22,7 @@ object Consts {
     const val LOCATION = "location"
     const val CALLS = "calls"
     const val RECORDING = "recording"
+    const val SETTINGS = "settings"
     const val DATA = "data"
     const val SMS = "sms"
     const val KEY_LOGGER = "keyLogger"

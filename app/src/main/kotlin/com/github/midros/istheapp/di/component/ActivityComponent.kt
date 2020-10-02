@@ -15,6 +15,7 @@ import com.github.midros.istheapp.ui.fragments.maps.MapsFragment
 import com.github.midros.istheapp.ui.fragments.message.MessageFragment
 import com.github.midros.istheapp.ui.fragments.notifications.NotifyMessageFragment
 import com.github.midros.istheapp.ui.fragments.recording.RecordingFragment
+import com.github.midros.istheapp.ui.fragments.setting.SettingFragment
 import com.github.midros.istheapp.ui.fragments.social.SocialFragment
 import dagger.Component
 
@@ -38,5 +39,6 @@ interface ActivityComponent {
     fun inject(socialFragment: SocialFragment)
     fun inject(recordingFragment: RecordingFragment)
     fun inject(notifyMessageFragment: NotifyMessageFragment)
+    fun inject(settingsFragment: SettingFragment)
 
 }

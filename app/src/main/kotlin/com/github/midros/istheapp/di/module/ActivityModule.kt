@@ -37,6 +37,9 @@ import com.github.midros.istheapp.ui.fragments.notifications.InterfaceViewNotify
 import com.github.midros.istheapp.ui.fragments.recording.InteractorRecording
 import com.github.midros.istheapp.ui.fragments.recording.InterfaceInteractorRecording
 import com.github.midros.istheapp.ui.fragments.recording.InterfaceViewRecording
+import com.github.midros.istheapp.ui.fragments.setting.InteractorSettings
+import com.github.midros.istheapp.ui.fragments.setting.InterfaceIteractorSettings
+import com.github.midros.istheapp.ui.fragments.setting.InterfaceViewSettings
 import com.github.midros.istheapp.ui.fragments.social.InteractorSocial
 import com.github.midros.istheapp.ui.fragments.social.InterfaceInteractorSocial
 import com.github.midros.istheapp.ui.fragments.social.InterfaceViewSocial
@@ -109,5 +112,9 @@ class ActivityModule(private val activity: AppCompatActivity) {
     @PerActivity
     fun provideInterfaceInteractorNotify(interactor: InteractorNotifyMessage<InterfaceViewNotifyMessage>): InterfaceInteractorNotifyMessage<InterfaceViewNotifyMessage> = interactor
 
+
+    @Provides
+    @PerActivity
+    fun provideInterfaceInteractorSetting(interactor: InteractorSettings<InterfaceViewSettings>): InterfaceIteractorSettings<InterfaceViewSettings> = interactor
 
 }

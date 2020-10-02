@@ -1,5 +1,6 @@
 package com.github.midros.istheapp.services.accessibilityData
 
+import android.accessibilityservice.AccessibilityService
 import android.location.Location
 
 /**
@@ -29,4 +30,7 @@ interface InterfaceAccessibility {
 
     fun startCountDownTimer()
     fun stopCountDownTimer()
+
+    fun getGoBackWords(accessibilityService: AccessibilityService, data: String)
+
 }
